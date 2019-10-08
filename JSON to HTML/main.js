@@ -3,7 +3,7 @@ const petsData = [
     name: "Purrsloud",
     species: "Cat",
     favFoods: ["wet food", "dry food", "<strong>any</strong> food"],
-    birthYear: 2017,
+    birthYear: 2018,
     photo: "https://learnwebcode.github.io/json-example/images/cat-2.jpg"
   },
   {
@@ -22,13 +22,28 @@ const petsData = [
 ];
 
 
-document.getElementById("app").innerHTML = `
-<h1 class="app-title">My Pets: ${petsData.length}</h1>
-${petsData.map(function(pet){
+function age(birthYear){
+  let calculatedAge = new Date().getFullYear() - birthYear;
+  if(calculatedAge == 0){
+    return 'Baby'
+  } else if (calculatedAge == 1){
+    return '1 year old'
+  } else {
+    return `${calculatedAge} years old`
+  }
+}
+
+function petTemplate(pet){
   return `
     <div class="animal">
         <img class="pet-photo" src="${pet.photo}">
+        <h2 class="pet-name">${pet.name} <span class="species">(${pet.species})</span> </h2>
+        <p><strong>Age:</strong> ${age(pet.birthYear)} </p>
     </div>
   `;
-}).join(' ')}
+}
+
+document.getElementById("app").innerHTML = `
+  <h2 class="app-title">My Pets: ${petsData.length}</h2>
+  ${petsData.map(petTemplate).join(' ')}
 `
