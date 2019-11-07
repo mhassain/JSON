@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <title>ToDos</title>
+  </head>
+  <body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>Task</th>
+          <th>User</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!---------------Main-js----------->
+    <script>
+      const user_api = "https://jsonplaceholder.typicode.com/users/";
+      const todo_api = "https://jsonplaceholder.typicode.com/todos";
+
+      fetch(todo_api, {
+        //mode: "cors"
+      })
+        .then(function(resp) {
+          return resp.json();
+        })
+        .then(function(todos) {
+          const ToDos = todos;
+          fetch(user_api, {
+            //mode: "cors"
+          })
+            .then(function(resp) {
+              return resp.json();
+            })
+            .then(function(users) {
+              //const Users = users;
+              let sl = 0,
+                tr = "";
+
+              ToDos.forEach(function(todo) {
+                sl++;
+                let badgeText = todo.completed ? "Completed" : "Not Completed";
+                let badgeClass = todo.completed ? "success" : "danger";
+                let badge = `<span class="badge badge-${badgeClass}">${badgeText}</span>`;
+                // console.log(users);
+                tr += `
+                    <tr>
+                        <td>${sl}</td>
+                        <td>${todo.title}</td>
+                        <td>${users[todo.userId - 1].name}</td>
+                        <td>${badge}</td>
+                    </tr>
+                `;
+              });
+
+              document.querySelector("table > tbody").innerHTML = tr;
+
+              //   console.log(ToDos);
+            });
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

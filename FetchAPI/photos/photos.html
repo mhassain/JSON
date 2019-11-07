@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <title>Photos</title>
+  </head>
+  <body>
+    <div id="photos" class="container">Loading...</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!----------Main JS----------->
+    <script>
+      const photos_api = "https://jsonplaceholder.typicode.com/photos";
+
+      fetch(photos_api)
+        .then(function(resp) {
+          return resp.json();
+        })
+        .then(function(photos) {
+          let userPhotos = "";
+          photos.forEach(photo => {
+            userPhotos += ` 
+            <div>
+              <p>${photo.id}</p>
+              <figure>
+                <img src="${photo.thumbnailUrl}">
+                <figcaption>${photo.title}</figcaption>
+                <a href="${photo.url}">Click here</a>
+              </figure> 
+            </div>
+            `;
+          });
+          document.getElementById("photos").innerHTML = userPhotos;
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>
